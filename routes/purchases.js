@@ -5,6 +5,10 @@ var config = require("config");
 var router = express.Router();
 /**
  * @api {post} /purchases/ Create a new Purchase if validated
+ * Calls come from Cedit Card Company
+ * @apiParam {String} credit_hash Hashed Credit Card number
+ * @apiParam {Number} purchase_type Purchase Identifier
+ * @apiParam {Number} purchase_amount Requested purchase amount
  * @apiSuccessExample Purchase-Approved:
  * {
  * 		status: 1020

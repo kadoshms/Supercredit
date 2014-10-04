@@ -1,8 +1,35 @@
 [
   {
     "type": "post",
-    "url": "/purchases/",
-    "title": "Create a new Purchase if validated",
+    "url": "/purchases/ Create a new Purchase if validated",
+    "title": "Calls come from Cedit Card Company",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "field": "credit_hash",
+            "optional": false,
+            "description": "<p>Hashed Credit Card number</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "field": "purchase_type",
+            "optional": false,
+            "description": "<p>Purchase Identifier</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "field": "purchase_amount",
+            "optional": false,
+            "description": "<p>Requested purchase amount</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "examples": [
         {
