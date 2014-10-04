@@ -37,6 +37,8 @@ router.route('/purchases')
 				res.send({status:config.STATUS_PURCHASE_DENIED});
 			}
 		})
+	},function(){ //if failed
+		res.send({status:config.STATUS_NO_CREDENTIALS})
 	});
 });
 module.exports=router;
