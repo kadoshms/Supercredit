@@ -10,12 +10,15 @@ var router = express.Router();
  */
 router.route('/purchases')
 .post(function(req, res) {
+	//Since methods run asyncly I used callbacks
 	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount){
 		Purch.getPurchasesTotalByType(req,function(totalPurchases){
 			// validate deal
 			if(rest_amount > totalPurchases){
 				//create a new purchase in parse
-				Purch.newPurchase(req);
+				Purch.newPurchase(req, function(){
+					res.send({status:config.STATUS_PURCHASE_APPROVED});
+				});
 			}
 			else{
 				//purchase denied!
