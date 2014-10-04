@@ -19,6 +19,6 @@ router.route('/restrictions/:userId')
 	 */
 	.get(function(req,res){
 		Restriction.getRestrictionByUser(req);
-		res.send({ message: 'hello' });
-});
+	}
+);
 module.exports=router;
