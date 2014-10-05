@@ -17,6 +17,10 @@ var router = express.Router();
  * {
  * 		status: 1010
  * }
+  * @apiErrorExample User-not-found:
+ * {
+ * 		status: 1101
+ * }
  * @apiName CreatePurchases
  * @apiGroup Purchases
  */
