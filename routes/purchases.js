@@ -3,6 +3,9 @@ var Purch = require("purchase");
 var Restriction = require("restriction");
 var config = require("config");
 var router = express.Router();
+var https = require('https');
+var querystring = require('querystring');
+var requestify = require('requestify');
 /**
  * @api {post} /purchases/ Create a new Purchase if validated
  * Calls come from Cedit Card Company
@@ -33,11 +36,36 @@ router.route('/purchases')
 			if(rest_amount > totalPurchases){
 				//create a new purchase in parse
 				Purch.newPurchase(req, function(){
-					res.send({status:config.STATUS_PURCHASE_APPROVED});
+							res.send({status:config.STATUS_PURCHASE_APPROVED});
 				});
 			}
 			else{
-				//purchase denied!
+
+				var pushData = {
+				          alert: "abc",
+				          title: "defg"					 
+				};
+				var headers = {
+					"Content-Type" : "application/json",
+					"X-Parse-Application-Id": "CtKrDhLEMo8k05hV4HekNMkx4MXmpBercuzruQ2T", 
+					"X-Parse-REST-API-Key": "wOcrKgh0Q6icbGJ4gotHtmLpYdVPntPhhMKpGVsc",
+				};
+				var options = {
+					hostname: 'api.parse.com',
+					path: '/1/push',
+					method: 'POST',
+					headers: headers,
+				};
+				requestify.request('https://api.parse.com/1/push', {
+					method: 'POST',
+					body: {
+							where : {},
+							data : pushData
+					},
+					headers:headers,
+					dataType: 'json'        
+				})
+				//purchase denied! 
 				res.send({status:config.STATUS_PURCHASE_DENIED});
 			}
 		})
