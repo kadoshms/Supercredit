@@ -29,6 +29,10 @@ var crypto = require('crypto');
  */
 router.route('/purchases')
 .post(function(req, res) {
+	 res.setHeader('Access-Control-Allow-Origin', config.URL_ORIGIN);
+	 res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+	 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	 res.setHeader('Access-Control-Allow-Credentials', true);
 	//Since methods run asyncly I used callbacks
 	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount,purchase_type){
 		Purch.getPurchasesTotalByType(req,function(totalPurchases){
