@@ -37,7 +37,8 @@ router.route('/purchases')
 	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount,purchase_type){
 		Purch.getPurchasesTotalByType(req,function(totalPurchases){
 			// validate deal
-			if(rest_amount > totalPurchases && req.body.purchase_amount <= rest_amount){
+			rest_amount = parseFloat(rest_amount)
+			if((rest_amount > totalPurchases && req.body.purchase_amount <= rest_amount) || rest_amount < 0){
 				//create a new purchase in parse
 				Purch.newPurchase(req, function(){
 							res.send({status:config.STATUS_PURCHASE_APPROVED});
