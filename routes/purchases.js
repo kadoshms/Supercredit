@@ -47,8 +47,8 @@ router.route('/purchases')
 				};
 				var headers = {
 					"Content-Type" : "application/json",
-					"X-Parse-Application-Id": "CtKrDhLEMo8k05hV4HekNMkx4MXmpBercuzruQ2T", 
-					"X-Parse-REST-API-Key": "wOcrKgh0Q6icbGJ4gotHtmLpYdVPntPhhMKpGVsc",
+					"X-Parse-Application-Id": config.APP_ID, 
+					"X-Parse-REST-API-Key": config.REST_API_KEY,
 				};
 				var options = {
 					hostname: 'api.parse.com',
