@@ -38,7 +38,7 @@ router.route('/purchases')
 		Purch.getPurchasesTotalByType(req,function(totalPurchases){
 			// validate deal
 			rest_amount = parseFloat(rest_amount)
-			if((rest_amount > totalPurchases && req.body.purchase_amount <= rest_amount) || rest_amount < 0){
+			if((rest_amount > parseFloat(totalPurchases) && parseFloat(req.body.purchase_amount) <= rest_amount) || rest_amount < 0){
 				//create a new purchase in parse
 				Purch.newPurchase(req, function(){
 							res.send({status:config.STATUS_PURCHASE_APPROVED});
@@ -46,7 +46,7 @@ router.route('/purchases')
 			}
 			else{
 				var pushData = {
-				          alert: config.pushBodyFormatter(purchase_type,rest_amount),
+				          alert: config.pushBodyFormatter(purchase_type,req.body.purchase_amount,rest_amount),
 				          title: "Are you sure you want to make this purchase?",
 				          sound: "chime"
 				};
