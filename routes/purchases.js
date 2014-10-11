@@ -4,8 +4,8 @@ var Restriction = require("restriction");
 var config = require("config");
 var router = express.Router();
 var https = require('https');
-var querystring = require('querystring');
 var requestify = require('requestify');
+var crypto = require('crypto');
 /**
  * @api {post} /purchases/ Create a new Purchase if validated
  * Calls come from Cedit Card Company
@@ -30,7 +30,7 @@ var requestify = require('requestify');
 router.route('/purchases')
 .post(function(req, res) {
 	//Since methods run asyncly I used callbacks
-	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount){
+	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount,purchase_type){
 		Purch.getPurchasesTotalByType(req,function(totalPurchases){
 			// validate deal
 			if(rest_amount > totalPurchases){
@@ -40,10 +40,10 @@ router.route('/purchases')
 				});
 			}
 			else{
-
 				var pushData = {
-				          alert: "abc",
-				          title: "defg"					 
+				          alert: config.pushBodyFormatter(purchase_type,rest_amount),
+				          title: "Are you sure you want to make this purchase?",
+				          sound: "chime"
 				};
 				var headers = {
 					"Content-Type" : "application/json",
