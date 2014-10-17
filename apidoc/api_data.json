@@ -45,11 +45,33 @@
           "title": "Purchase-Denied:",
           "content": "Purchase-Denied:\n{\n\tstatus: 1010\n}\n",
           "type": "json"
+        },
+        {
+          "title": "User-not-found:",
+          "content": "User-not-found:\n{\n\tstatus: 1101\n}\n",
+          "type": "json"
         }
       ]
     },
     "name": "CreatePurchases",
     "group": "Purchases",
+    "version": "0.0.0",
+    "filename": "routes/purchases.js"
+  },
+  {
+    "type": "put",
+    "url": "/purchase/:id",
+    "title": "Set Denied Purchase As Approved (Status 1020)",
+    "group": "Purchase",
+    "success": {
+      "examples": [
+        {
+          "title": "Purchase-Approved:",
+          "content": "Purchase-Approved:\n{\n\tstatus: 1020\n}\n",
+          "type": "json"
+        }
+      ]
+    },
     "version": "0.0.0",
     "filename": "routes/purchases.js"
   },

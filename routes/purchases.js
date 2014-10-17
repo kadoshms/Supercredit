@@ -4,7 +4,7 @@ var Restriction = require("restriction");
 var config = require("config");
 var router = express.Router();
 var https = require('https');
-var requestify = require('requestify');
+var push = require('push');
 var crypto = require('crypto');
 /**
  * @api {post} /purchases/ Create a new Purchase if validated
@@ -50,32 +50,36 @@ router.route('/purchases')
 				          title: "Are you sure you want to make this purchase?",
 				          sound: "chime"
 				};
-				var headers = {
-					"Content-Type" : "application/json",
-					"X-Parse-Application-Id": config.APP_ID, 
-					"X-Parse-REST-API-Key": config.REST_API_KEY,
-				};
-				var options = {
-					hostname: 'api.parse.com',
-					path: '/1/push',
-					method: 'POST',
-					headers: headers,
-				};
-				requestify.request('https://api.parse.com/1/push', {
-					method: 'POST',
-					body: {
-							where : {},
-							data : pushData
-					},
-					headers:headers,
-					dataType: 'json'        
-				})
-				//purchase denied! 
-				res.send({status:config.STATUS_PURCHASE_DENIED});
+				push.sendPush(pushData)
+				//create a new purchase with status 0
+				Purch.newPendingPurchase(req, function(){
+					//purchase denied! 
+					res.send({status:config.STATUS_PURCHASE_DENIED});					
+				});
 			}
 		})
 	},function(){ //if failed
 		res.send({status:config.STATUS_NO_CREDENTIALS})
 	});
+});
+/**
+ * @api {put} /purchase/:id Set Denied Purchase As Approved (Status 1020)
+ * @apiGroup Purchase
+ * @apiSuccessExample Purchase-Approved:
+ * {
+ * 		status: 1020
+ * }
+ */
+router.route('/purchase/:id')
+.put(function(req, res) {
+	 res.setHeader('Access-Control-Allow-Origin', config.URL_ORIGIN);
+	 res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+	 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	 res.setHeader('Access-Control-Allow-Credentials', true);
+	 var purchaseId = req.params.id;
+	
+	 Purch.updateDeniedPurchaseToApproved(req,function(){
+		 res.send({status:config.STATUS_PURCHASE_APPROVED});
+	 })
 });
 module.exports=router;
