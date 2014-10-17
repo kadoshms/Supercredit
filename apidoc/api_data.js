@@ -26,6 +26,13 @@ define({ api: [
             "field": "purchase_amount",
             "optional": false,
             "description": "<p>Requested purchase amount</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "field": "security_token",
+            "optional": false,
+            "description": "<p>user security token</p>"
           }
         ]
       }

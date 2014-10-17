@@ -12,6 +12,7 @@ var crypto = require('crypto');
  * @apiParam {String} credit_hash Hashed Credit Card number
  * @apiParam {Number} purchase_type Purchase Identifier
  * @apiParam {Number} purchase_amount Requested purchase amount
+ * @apiParam {String} security_token user security token
  * @apiSuccessExample Purchase-Approved:
  * {
  * 		status: 1020
