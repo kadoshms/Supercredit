@@ -35,7 +35,7 @@ router.route('/purchases')
 	 res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 	 res.setHeader('Access-Control-Allow-Credentials', true);
 	//Since methods run asyncly I used callbacks
-	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount,purchase_type,live_restrict){
+	Restriction.getUserRestrictionAmountByPurchaseType(req,function(rest_amount,purchase_type,userObjectId,live_restrict){
 		Purch.getPurchasesTotalByType(req,function(totalPurchases){
 			// validate deal
 			rest_amount = parseFloat(rest_amount)
@@ -47,11 +47,11 @@ router.route('/purchases')
 			}
 			else{
 				var pushData = {
-				          alert: config.pushBodyFormatter(purchase_type,req.body.purchase_amount,rest_amount),
+				          alert: config.pushBodyFormatter(purchase_type,req.body.purchase_amount,rest_amount,totalPurchases,live_restrict),
 				          title: "Are you sure you want to make this purchase?",
 				          sound: "chime"
 				};
-				push.sendPush(pushData)
+				push.sendPush(pushData,userObjectId)
 				//is liveRestriction on	u
 				var _purchaseStatus = live_restrict ? config.STATUS_PURCHASE_PENDING : config.STATUS_PURCHASE_DENIED
 				//create a new purchase with status 0
