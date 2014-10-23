@@ -66,7 +66,7 @@ define({ api: [
     "filename": "routes/purchases.js"
   },
   {
-    "type": "put",
+    "type": "post",
     "url": "/purchase/:id",
     "title": "Set Denied Purchase As Approved (Status 1020)",
     "group": "Purchase",
